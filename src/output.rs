@@ -45,23 +45,25 @@ impl OutputWriter {
         let mut output = String::new();
         
         // Clean header
-        output.push_str(&format!("\n{}\n\n", 
-            "NETWORK SCAN COMPLETE".truecolor(0, 255, 65).bold()));
+        output.push_str(&format!("\n{}\n", 
+            "PortScope Scan Results".bright_cyan().bold()));
+        output.push_str(&"─".repeat(50));
+        output.push_str("\n");
         
-        // Clean scan info
-        output.push_str(&format!("{} {} {} {} {}\n", 
-            "⟦".truecolor(64, 64, 64),
-            result.target_spec.truecolor(255, 255, 255).bold(),
-            "•".truecolor(0, 255, 65),
-            result.scan_type.to_string().truecolor(255, 140, 0).bold(),
-            "⟧".truecolor(64, 64, 64)));
-        output.push_str(&format!("{} {} {} {} {} {}\n\n", 
-            "⟦".truecolor(64, 64, 64),
-            format!("{}ms", (result.end_time - result.start_time).num_milliseconds()).truecolor(0, 212, 255).bold(),
-            "•".truecolor(0, 255, 65),
-            format!("{} hosts", result.total_hosts).truecolor(191, 64, 191).bold(),
-            "•".truecolor(0, 255, 65),
-            format!("{} ports", result.total_ports).truecolor(191, 64, 191).bold()));
+        // Clean scan summary
+        let duration = (result.end_time - result.start_time).num_milliseconds();
+        let duration_str = if duration < 1000 {
+            format!("{}ms", duration)
+        } else {
+            format!("{:.1}s", duration as f64 / 1000.0)
+        };
+        
+        output.push_str(&format!("Target:   {}\n", result.target_spec.bright_white().bold()));
+        output.push_str(&format!("Method:   {}\n", result.scan_type.to_string().bright_yellow()));
+        output.push_str(&format!("Time:     {}\n", duration_str.bright_blue()));
+        output.push_str(&format!("Scope:    {} hosts, {} ports\n\n", 
+            result.total_hosts.to_string().bright_magenta(), 
+            result.total_ports.to_string().bright_magenta()));
         
         let mut hosts_with_open_ports = 0;
         let mut total_open_ports = 0;
@@ -79,16 +81,18 @@ impl OutputWriter {
                 total_open_ports += open_ports.len();
                 
                 // Clean host header
-                output.push_str(&format!("{} {} {} {} {}\n", 
-                    "▶".truecolor(0, 255, 65).bold(),
-                    host.target_ip.to_string().truecolor(255, 255, 255).bold(),
-                    "•".truecolor(64, 64, 64),
-                    format!("{} open ports", open_ports.len()).truecolor(0, 212, 255).bold(),
-                    if !filtered_ports.is_empty() { 
-                        format!("• {} filtered", filtered_ports.len()).truecolor(255, 140, 0) 
-                    } else { 
-                        "".truecolor(255, 255, 255)
-                    }));
+                output.push_str(&format!("{}\n", host.target_ip.to_string().bright_white().bold()));
+                
+                if !filtered_ports.is_empty() {
+                    output.push_str(&format!("  {} open, {} filtered\n", 
+                        format!("{} ports", open_ports.len()).bright_green(),
+                        format!("{} ports", filtered_ports.len()).bright_yellow()));
+                } else {
+                    output.push_str(&format!("  {}\n", 
+                        format!("{} ports open", open_ports.len()).bright_green()));
+                }
+                
+                output.push_str("\n");
                 
                 for port in &open_ports {
                     let service = if let Some(ref service_info) = port.service_detected {
@@ -101,18 +105,17 @@ impl OutputWriter {
                         get_service_name(port.port).to_string()
                     };
                     
-                    // Add response time if available
-                    let service_display = if let Some(response_time) = port.response_time {
-                        format!("{} ({:.1}ms)", service, response_time)
+                    // Clean port display  
+                    let time_display = if let Some(response_time) = port.response_time {
+                        format!(" ({:.1}ms)", response_time).bright_black()
                     } else {
-                        service
+                        "".normal()
                     };
                     
-                    output.push_str(&format!("  {} {} {} {}\n",
-                        port.port.to_string().truecolor(255, 255, 255).bold(),
-                        "●".truecolor(0, 255, 65),
-                        "open".truecolor(0, 255, 65),
-                        service_display.truecolor(128, 128, 128)));
+                    output.push_str(&format!("  {:>5}/tcp  {}{}\n",
+                        port.port.to_string().bright_white().bold(),
+                        service.bright_cyan(),
+                        time_display));
                 }
                 
                 output.push_str("\n");
@@ -120,22 +123,17 @@ impl OutputWriter {
         }
         
         // Clean summary
-        if hosts_with_open_ports == 0 {
-            output.push_str(&format!("{} {}\n", 
-                "⚠".truecolor(255, 140, 0).bold(),
-                "No open ports detected - all targets secured".truecolor(128, 128, 128)));
-        } else {
-            output.push_str(&format!("{} {} {} {} {} {}\n", 
-                "⚡".truecolor(0, 255, 65).bold(),
-                "Scan complete:".truecolor(0, 255, 65).bold(),
-                format!("{} active hosts", hosts_with_open_ports).truecolor(255, 255, 255).bold(),
-                "•".truecolor(64, 64, 64),
-                format!("{} open ports", total_open_ports).truecolor(255, 255, 255).bold(),
-                "found".truecolor(0, 255, 65).bold()));
-        }
+        output.push_str(&"─".repeat(50));
+        output.push_str("\n");
         
-        output.push_str(&format!("\n{}\n", 
-            "▓▒░ SCAN OPERATION COMPLETE ░▒▓".truecolor(191, 64, 191).bold()));
+        if hosts_with_open_ports == 0 {
+            output.push_str(&format!("Result:   {}\n", 
+                "No open ports detected".bright_yellow()));
+        } else {
+            output.push_str(&format!("Result:   {} with {}\n", 
+                format!("{} active hosts", hosts_with_open_ports).bright_green(),
+                format!("{} open ports", total_open_ports).bright_green()));
+        }
         
         Ok(output)
     }
