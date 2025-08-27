@@ -27,7 +27,7 @@ use crate::cli::ScanType;
 use crate::utils::parse_ports;
 use crate::network::parse_targets;
 use crate::adaptive::{AdaptiveLearning, ScanLearningData, PortScanResult, classify_network};
-pub use results::{ScanResult, PortStatus, PortResult, MultiHostScanResult, ServiceInfo};
+pub use results::{ScanResult, PortStatus, PortResult, MultiHostScanResult};
 use service_detection::ServiceDetector;
 use scan_cache::GLOBAL_SCAN_CACHE;
 

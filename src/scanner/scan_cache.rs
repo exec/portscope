@@ -2,7 +2,7 @@
 use std::collections::HashMap;
 use std::net::IpAddr;
 use std::sync::{Arc, RwLock};
-use std::time::{Duration, SystemTime, UNIX_EPOCH};
+use std::time::{SystemTime, UNIX_EPOCH};
 use serde::{Deserialize, Serialize};
 
 use crate::scanner::results::{PortStatus, ServiceInfo};
@@ -29,6 +29,7 @@ pub struct ScanCache {
     max_entries: usize,
 }
 
+#[allow(dead_code)]
 impl ScanCache {
     pub fn new(ttl_seconds: u64, max_entries: usize) -> Self {
         Self {
@@ -217,6 +218,7 @@ impl ScanCache {
     }
 }
 
+#[allow(dead_code)]
 #[derive(Debug, Default)]
 pub struct CacheStats {
     pub total_hosts: usize,
@@ -225,6 +227,7 @@ pub struct CacheStats {
     pub expired_results: usize,
 }
 
+#[allow(dead_code)]
 impl CacheStats {
     pub fn cache_hit_rate(&self) -> f64 {
         if self.total_ports == 0 {
@@ -235,8 +238,8 @@ impl CacheStats {
     }
 }
 
-/// Global cache instance for sharing across scan sessions
 lazy_static::lazy_static! {
+    /// Global cache instance for sharing across scan sessions
     pub static ref GLOBAL_SCAN_CACHE: ScanCache = ScanCache::new(
         3600, // 1 hour TTL
         1000  // Max 1000 host entries

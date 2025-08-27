@@ -1,3 +1,4 @@
+#![allow(dead_code)]
 // Web protocol detectors (HTTP, HTTPS, GraphQL, REST APIs, etc.)
 
 use super::{ProtocolDetector, ProtocolDetectionResult};

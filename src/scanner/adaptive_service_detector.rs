@@ -17,6 +17,7 @@ pub struct ServiceProbe {
     pub confidence_if_match: f32,
 }
 
+#[allow(dead_code)]
 #[derive(Debug, Clone)]
 pub struct ProbeResult {
     pub probe_name: String,
@@ -31,6 +32,7 @@ pub struct AdaptiveServiceDetector {
     service_signatures: HashMap<String, Vec<ServiceSignature>>,
 }
 
+#[allow(dead_code)]
 #[derive(Debug, Clone)]
 struct ServiceSignature {
     pattern: Vec<u8>,
@@ -310,7 +312,7 @@ impl AdaptiveServiceDetector {
         (false, 0.0, "Unknown".to_string())
     }
     
-    fn identify_specific_service(probe_name: &str, response: &[u8], text: &str) -> String {
+    fn identify_specific_service(probe_name: &str, _response: &[u8], text: &str) -> String {
         match probe_name {
             "HTTP-GET" => {
                 if text.contains("apache") {
@@ -351,7 +353,7 @@ impl AdaptiveServiceDetector {
         }
     }
     
-    fn identify_from_banner(response: &[u8], text: &str) -> String {
+    fn identify_from_banner(_response: &[u8], text: &str) -> String {
         if text.starts_with("ssh-") {
             "SSH Server".to_string()
         } else if text.starts_with("220") && text.contains("ftp") {

@@ -9,6 +9,7 @@ pub mod development_detectors;
 
 use std::collections::HashMap;
 
+#[allow(dead_code)]
 #[derive(Debug, Clone)]
 pub struct ProtocolDetectionResult {
     pub service_name: String,

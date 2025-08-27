@@ -332,6 +332,7 @@ impl AdaptiveLearning {
     }
 }
 
+#[allow(dead_code)]
 #[derive(Debug, Clone)]
 pub struct ScanLearningData {
     pub target: IpAddr,
@@ -345,6 +346,7 @@ pub struct ScanLearningData {
     pub scan_performance: f64, // 0.0 to 1.0 based on success rate and speed
 }
 
+#[allow(dead_code)]
 #[derive(Debug, Clone)]
 pub struct PortScanResult {
     pub port: u16,
@@ -354,6 +356,7 @@ pub struct PortScanResult {
     pub service_detected: Option<String>,
 }
 
+#[allow(dead_code)]
 #[derive(Debug, Clone)]
 pub struct OptimalScanParams {
     pub timeout: u64,

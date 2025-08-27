@@ -1,3 +1,4 @@
+#![allow(dead_code)]
 // System protocol detectors (DNS, LDAP, SMTP, SNMP, etc.)
 
 use super::{ProtocolDetector, ProtocolDetectionResult};

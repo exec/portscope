@@ -13,12 +13,14 @@ use crate::scanner::results::ServiceInfo;
 use crate::scanner::protocol_detectors::{ProtocolDetector, ProtocolDetectionResult};
 use crate::scanner::protocol_detectors::database_detectors::*;
 
+#[allow(dead_code)]
 pub struct ParallelProtocolDetector {
     detectors: Vec<Box<dyn ProtocolDetector + Send + Sync>>,
     max_concurrent_probes: usize,
     probe_timeout: Duration,
 }
 
+#[allow(dead_code)]
 #[derive(Debug, Clone)]
 pub struct ProbeResult {
     pub detector_name: String,
@@ -27,6 +29,7 @@ pub struct ProbeResult {
     pub probe_duration: Duration,
 }
 
+#[allow(dead_code)]
 impl ParallelProtocolDetector {
     pub fn new() -> Self {
         let mut detectors: Vec<Box<dyn ProtocolDetector + Send + Sync>> = Vec::new();
@@ -89,7 +92,7 @@ impl ParallelProtocolDetector {
         }
         
         // Find the best result (highest confidence)
-        if let Some((best_result, duration)) = results.into_iter()
+        if let Some((best_result, _duration)) = results.into_iter()
             .max_by(|a, b| a.0.confidence.partial_cmp(&b.0.confidence).unwrap_or(std::cmp::Ordering::Equal)) {
             
             Some(ServiceInfo {

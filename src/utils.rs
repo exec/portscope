@@ -21,9 +21,6 @@ pub fn parse_ports(port_spec: &str) -> Result<Vec<u16>> {
                 return Err(anyhow!("Invalid range: start > end"));
             }
             
-            if end > 65535 {
-                return Err(anyhow!("Port number too high: {}", end));
-            }
             
             for port in start..=end {
                 ports.push(port);
@@ -45,9 +42,6 @@ pub fn parse_ports(port_spec: &str) -> Result<Vec<u16>> {
             let port: u16 = part.parse()
                 .map_err(|_| anyhow!("Invalid port number: {}", part))?;
             
-            if port > 65535 {
-                return Err(anyhow!("Port number too high: {}", port));
-            }
             
             ports.push(port);
         }

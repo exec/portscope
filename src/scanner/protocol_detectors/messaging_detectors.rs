@@ -1,3 +1,4 @@
+#![allow(dead_code)]
 // Messaging protocol detectors (MQTT, RabbitMQ, Kafka, etc.)
 
 use super::{ProtocolDetector, ProtocolDetectionResult};

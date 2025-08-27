@@ -1,3 +1,4 @@
+#![allow(dead_code)]
 use crate::scanner::ml_classifier::{ServiceFeatures, TrainingExample};
 use std::collections::HashMap;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};

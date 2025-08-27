@@ -1,3 +1,4 @@
+#![allow(dead_code)]
 // Development tool protocol detectors (Git, Docker, CI/CD, etc.)
 
 use super::{ProtocolDetector, ProtocolDetectionResult};
