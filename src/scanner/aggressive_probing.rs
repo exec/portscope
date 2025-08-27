@@ -145,7 +145,7 @@ impl MLAggressiveProber {
             probes: vec![
                 ProbeStep {
                     step_name: "Basic HTTP".to_string(),
-                    probe_data: b"GET / HTTP/1.1\r\nHost: target\r\nUser-Agent: MLScan-Aggressive\r\n\r\n".to_vec(),
+                    probe_data: b"GET / HTTP/1.1\r\nHost: target\r\nUser-Agent: PortScope-Scanner\r\n\r\n".to_vec(),
                     expected_patterns: vec!["HTTP/".to_string()],
                     timeout_ms: 5000,
                     connection_type: ConnectionType::HTTP,
@@ -184,7 +184,7 @@ impl MLAggressiveProber {
             probes: vec![
                 ProbeStep {
                     step_name: "SSH Banner".to_string(),
-                    probe_data: b"SSH-2.0-MLScan_1.0\r\n".to_vec(),
+                    probe_data: b"SSH-2.0-PortScope_1.0\r\n".to_vec(),
                     expected_patterns: vec!["SSH-".to_string()],
                     timeout_ms: 5000,
                     connection_type: ConnectionType::TCP,
@@ -234,7 +234,7 @@ impl MLAggressiveProber {
             probes: vec![
                 ProbeStep {
                     step_name: "IRC Nick Registration".to_string(),
-                    probe_data: b"NICK mlscan_probe\r\nUSER mlscan test test :MLScan Probe\r\n".to_vec(),
+                    probe_data: b"NICK portscope_probe\r\nUSER portscope test test :PortScope Probe\r\n".to_vec(),
                     expected_patterns: vec!["001".to_string(), "Welcome".to_string(), "MOTD".to_string(), "ergo".to_string()],
                     timeout_ms: 5000,
                     connection_type: ConnectionType::TCP,
@@ -948,7 +948,7 @@ impl MLAggressiveProber {
             let banner = String::from_utf8_lossy(&buffer);
             if banner.contains("SSH") {
                 // Send our banner
-                stream.write_all(b"SSH-2.0-MLScan_Probe\r\n").await.ok()?;
+                stream.write_all(b"SSH-2.0-PortScope_Probe\r\n").await.ok()?;
                 
                 // Try to trigger authentication failure
                 // In real implementation, would do proper SSH handshake

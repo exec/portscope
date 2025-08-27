@@ -44,22 +44,9 @@ impl OutputWriter {
     fn format_human(&self, result: MultiHostScanResult) -> Result<String> {
         let mut output = String::new();
         
-        // Clean ASCII banner centered
-        output.push_str(&format!("\n{}\n", 
-            "  ███▄ ▄███▓ ██▓      ██████  ▄████▄   ▄▄▄       ███▄    █ ".truecolor(191, 64, 191).bold()));
-        output.push_str(&format!("{}\n", 
-            " ▓██▒▀█▀ ██▒▓██▒    ▒██    ▒ ▒██▀ ▀█  ▒████▄     ██ ▀█   █ ".truecolor(191, 64, 191).bold()));
-        output.push_str(&format!("{}\n", 
-            " ▓██    ▓██░▒██░    ░ ▓██▄   ▒▓█    ▄ ▒██  ▀█▄  ▓██  ▀█ ██▒".truecolor(191, 64, 191).bold()));
-        output.push_str(&format!("{}\n", 
-            " ▒██    ▒██ ▒██░      ▒   ██▒▒▓▓▄ ▄██▒░██▄▄▄▄██ ▓██▒  ▐▌██▒".truecolor(191, 64, 191).bold()));
-        output.push_str(&format!("{}\n", 
-            " ▒██▒   ░██▒░██████▒▒██████▒▒▒ ▓███▀ ░ ▓█   ▓██▒▒██░   ▓██░".truecolor(191, 64, 191).bold()));
-        output.push_str(&format!("{}\n\n", 
-            " ░ ▒░   ░  ░░ ▒░▓  ░▒ ▒▓▒ ▒ ░░ ░▒ ▒  ░ ▒▒   ▓▒█░░ ▒░   ▒ ▒ ".truecolor(191, 64, 191).bold()));
-            
-        output.push_str(&format!("{}\n\n", 
-            "                    ░▒ ▒  NETWORK SCAN COMPLETE ▒▒ ░".truecolor(0, 255, 65).bold()));
+        // Clean header
+        output.push_str(&format!("\n{}\n\n", 
+            "NETWORK SCAN COMPLETE".truecolor(0, 255, 65).bold()));
         
         // Clean scan info
         output.push_str(&format!("{} {} {} {} {}\n", 
