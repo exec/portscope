@@ -24,7 +24,7 @@ async fn main() -> Result<()> {
     
     let mut scanner = Scanner::new(
         cli.rate_limit.unwrap_or(10), // 10ms rate limit for responsiveness
-        cli.timeout.unwrap_or(3000),  // 3 second timeout default
+        cli.timeout.unwrap_or(1000),  // 1 second timeout default
         cli.parallel_hosts.unwrap_or(50), // 50 parallel connections
     );
     

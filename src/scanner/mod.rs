@@ -151,10 +151,35 @@ impl Scanner {
         let adaptive_rate_limit = optimal_params.rate_limit;
         let adaptive_parallelism = optimal_params.parallelism as usize;
         
-        // Use adaptive parameters if they're better than defaults
-        let effective_timeout = if adaptive_timeout > 0 { adaptive_timeout } else { self.timeout };
-        let effective_rate_limit = if adaptive_rate_limit > 0 { adaptive_rate_limit } else { self.rate_limit };
-        let effective_parallelism = if adaptive_parallelism > 0 { adaptive_parallelism } else { self.parallel_hosts };
+        // Honor explicit user settings over adaptive learning
+        // Only use adaptive parameters if user used defaults (1000ms timeout, 10ms rate_limit, 50 parallel)
+        let user_set_timeout = self.timeout != 1000;
+        let user_set_rate_limit = self.rate_limit != 10;  
+        let user_set_parallelism = self.parallel_hosts != 50;
+        
+        let effective_timeout = if user_set_timeout { 
+            self.timeout 
+        } else if adaptive_timeout > 0 { 
+            adaptive_timeout 
+        } else { 
+            self.timeout 
+        };
+        
+        let effective_rate_limit = if user_set_rate_limit {
+            self.rate_limit
+        } else if adaptive_rate_limit > 0 { 
+            adaptive_rate_limit 
+        } else { 
+            self.rate_limit 
+        };
+        
+        let effective_parallelism = if user_set_parallelism {
+            self.parallel_hosts
+        } else if adaptive_parallelism > 0 { 
+            adaptive_parallelism as usize
+        } else { 
+            self.parallel_hosts 
+        };
         
         let semaphore = Arc::new(Semaphore::new(effective_parallelism));
         let mut tasks = vec![];

@@ -374,9 +374,9 @@ impl OptimalScanParams {
                 network_type,
             },
             NetworkType::PrivateLAN => OptimalScanParams {
-                timeout: 500,
-                rate_limit: 50,
-                parallelism: 50,
+                timeout: 200,
+                rate_limit: 20,
+                parallelism: 100,
                 suggested_ports: vec![22, 80, 443, 445, 135, 3389],
                 network_type,
             },
