@@ -1,0 +1,1 @@
+// Host discovery functionality - currently unused but available for future use

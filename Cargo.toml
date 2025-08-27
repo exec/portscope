@@ -1,0 +1,68 @@
+[package]
+name = "portscope"
+version = "0.1.0"
+edition = "2021"
+description = "Advanced network port scanner with intelligent service detection"
+license = "MIT"
+repository = "https://github.com/exec/portscope"
+readme = "README.md"
+keywords = ["network", "security", "scanner", "port", "service-detection"]
+categories = ["command-line-utilities", "network-programming"]
+
+[dependencies]
+tokio = { version = "1.40", features = ["full"] }
+clap = { version = "4.5", features = ["derive"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+anyhow = "1.0"
+socket2 = "0.5"
+pnet = "0.35"
+indicatif = "0.17"
+colored = "2.1"
+chrono = { version = "0.4", features = ["serde"] }
+rand = "0.8"
+futures = "0.3"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+ipnet = "2.9"
+dirs = "5.0"
+async-trait = "0.1"
+thiserror = "1.0"
+regex = "1.0"
+base64 = "0.21"
+statrs = "0.17"
+smartcore = "0.3"
+ndarray = "0.15"
+lazy_static = "1.4"
+
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"
+
+[target.'cfg(windows)'.dependencies]
+winapi = { version = "0.3", features = ["processthreadsapi", "securitybaseapi", "winnt", "handleapi"] }
+
+[dev-dependencies]
+tempfile = "3.13"
+
+[profile.release]
+lto = true
+codegen-units = 1
+opt-level = 3
+
+[package.metadata.deb]
+maintainer = "PortScope <noreply@example.com>"
+copyright = "2025, PortScope Contributors"
+license-file = ["LICENSE", "4"]
+extended-description = """\
+Advanced network port scanner with intelligent service detection.
+Supports TCP SYN/Connect/FIN/XMAS/NULL scans, UDP scanning,
+CIDR ranges, multiple output formats, and adaptive performance."""
+depends = "$auto"
+section = "net"
+priority = "optional"
+assets = [
+    ["target/release/portscope", "usr/bin/", "755"],
+    ["README.md", "usr/share/doc/portscope/", "644"],
+    ["install.sh", "usr/share/doc/portscope/", "755"],
+    ["uninstall.sh", "usr/share/doc/portscope/", "755"],
+]

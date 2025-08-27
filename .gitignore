@@ -1,0 +1,43 @@
+# Rust build artifacts
+/target/
+Cargo.lock
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Runtime files
+*.log
+*.pid
+*.dat
+
+# Test outputs
+test_results/
+coverage/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Configuration overrides (keep examples)
+config.json
+!config.example.json
+
+# Build artifacts
+/dist/
+*.deb
+*.rpm
+*.tar.gz
+*.zip
+
+# Development databases
+*.db
+*.sqlite
+*.sqlite3
