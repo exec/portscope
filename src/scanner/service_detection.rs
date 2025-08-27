@@ -37,14 +37,14 @@ impl ServiceDetector {
         // HTTP detection
         self.add_probe(80, ServiceProbe {
             name: "HTTP".to_string(),
-            probe_data: b"GET / HTTP/1.1\r\nHost: target\r\nUser-Agent: MLScan-RS\r\n\r\n".to_vec(),
+            probe_data: b"GET / HTTP/1.1\r\nHost: target\r\nUser-Agent: PortScope\r\n\r\n".to_vec(),
             expected_response: b"HTTP/".to_vec(),
             version_regex: Some(r"Server: ([^\r\n]+)".to_string()),
         });
         
         self.add_probe(8080, ServiceProbe {
             name: "HTTP".to_string(),
-            probe_data: b"GET / HTTP/1.1\r\nHost: target\r\nUser-Agent: MLScan-RS\r\n\r\n".to_vec(),
+            probe_data: b"GET / HTTP/1.1\r\nHost: target\r\nUser-Agent: PortScope\r\n\r\n".to_vec(),
             expected_response: b"HTTP/".to_vec(),
             version_regex: Some(r"Server: ([^\r\n]+)".to_string()),
         });
@@ -52,7 +52,7 @@ impl ServiceDetector {
         // HTTPS detection
         self.add_probe(443, ServiceProbe {
             name: "HTTPS".to_string(),
-            probe_data: b"GET / HTTP/1.1\r\nHost: target\r\nUser-Agent: MLScan-RS\r\n\r\n".to_vec(),
+            probe_data: b"GET / HTTP/1.1\r\nHost: target\r\nUser-Agent: PortScope\r\n\r\n".to_vec(),
             expected_response: b"HTTP/".to_vec(),
             version_regex: Some(r"Server: ([^\r\n]+)".to_string()),
         });
@@ -60,7 +60,7 @@ impl ServiceDetector {
         // SSH detection
         self.add_probe(22, ServiceProbe {
             name: "SSH".to_string(),
-            probe_data: b"SSH-2.0-MLScan\r\n".to_vec(),
+            probe_data: b"SSH-2.0-PortScope\r\n".to_vec(),
             expected_response: b"SSH-".to_vec(),
             version_regex: Some(r"SSH-([0-9.]+[^\r\n]*)".to_string()),
         });

@@ -54,7 +54,7 @@ impl AdaptiveServiceDetector {
         // HTTP probes
         self.probes.push(ServiceProbe {
             name: "HTTP-GET".to_string(),
-            probe_data: b"GET / HTTP/1.1\r\nHost: test\r\nUser-Agent: MLScan\r\n\r\n".to_vec(),
+            probe_data: b"GET / HTTP/1.1\r\nHost: test\r\nUser-Agent: PortScope\r\n\r\n".to_vec(),
             expected_patterns: vec![
                 b"HTTP/".to_vec(),
                 b"Content-Type".to_vec(),
